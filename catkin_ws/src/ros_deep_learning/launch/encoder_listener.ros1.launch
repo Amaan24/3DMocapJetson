@@ -1,0 +1,6 @@
+<launch>
+
+    <node name="encoder_listener" pkg="ros_deep_learning" type="encoder_listener">
+         </node>
+
+</launch>

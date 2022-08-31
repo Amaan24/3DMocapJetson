@@ -1,0 +1,40 @@
+<launch>
+	<arg name="input_width" default="0"/>
+	<arg name="input_height" default="0"/>
+	<arg name="input_codec" default="unknown"/>
+	<arg name="input_loop" default="0"/>
+
+	<arg name="output_codec" default="h265"/>
+	<arg name="output_bitrate" default="0"/>
+
+	<node pkg="ros_deep_learning" type="video_source" name="video_source" output="screen">
+		<param name="resource" value="v4l2:///dev/video1"/>
+		<param name="width" value="$(arg input_width)"/>
+		<param name="height" value="$(arg input_height)"/>
+		<param name="loop" value="$(arg input_loop)"/>
+	</node>
+
+
+	<node pkg="ros_deep_learning" type="video_output" name="video_output" output="screen">
+		<remap from="/video_output/image_in" to="/video_source/raw"/>
+		<param name="resource" command="/home/amaan/catkin_ws/src/ros_deep_learning/src/scripts/filenameVid1.sh"/>
+		<param name="codec" value="$(arg output_codec)"/>
+		<param name="bitrate" value="$(arg output_bitrate)"/>
+		<param name="ts_fileName" command="/home/amaan/catkin_ws/src/ros_deep_learning/src/scripts/tsFilenameVid1.sh"/>
+	</node>
+
+    <node name="serial_node" pkg="rosserial_python" type="serial_node.py">
+    		<param name="port" type="string" value="/dev/ttyACM0"/>
+    		<param name="baud" type="int" value="115200"/>
+         </node>
+
+
+    <node name="encoder_listener" pkg="ros_deep_learning" type="encoder_listener">
+         </node>
+
+    <node name="kf_listener" pkg="ros_deep_learning" type="kf_listener">
+         </node>
+
+    <node name="yolo_listener" pkg="ros_deep_learning" type="yolo_listener">
+         </node>
+</launch>

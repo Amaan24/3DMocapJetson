@@ -1,0 +1,26 @@
+<launch>
+	<arg name="output_codec" default="unknown"/>
+	<arg name="output_bitrate" default="0"/>
+	<arg name="topic"/>
+	<arg name="topic1"/>
+
+	<node pkg="ros_deep_learning" type="video_output" name="video_output" output="screen">
+		<remap from="/video_output/image_in" to="$(arg topic)"/>
+		<param name="resource" command="/home/amaan/catkin_ws/src/ros_deep_learning/src/scripts/filenameVid1.sh"/>
+		<param name="codec" value="$(arg output_codec)"/>
+		<param name="bitrate" value="$(arg output_bitrate)"/>
+		<param name="ts_fileName" command="/home/amaan/catkin_ws/src/ros_deep_learning/src/scripts/tsFilenameVid1.sh"/>
+	</node>
+
+	<node pkg="ros_deep_learning" type="video_output" name="video_output1" output="screen">
+		<remap from="/video_output1/image_in" to="$(arg topic1)"/>
+		<param name="resource" command="/home/amaan/catkin_ws/src/ros_deep_learning/src/scripts/filenameVid2.sh"/>
+		<param name="codec" value="$(arg output_codec)"/>
+		<param name="bitrate" value="$(arg output_bitrate)"/>
+		<param name="ts_fileName" command="/home/amaan/catkin_ws/src/ros_deep_learning/src/scripts/tsFilenameVid2.sh"/>
+	</node>
+
+</launch>
+
+
+
